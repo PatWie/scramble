@@ -35,6 +35,8 @@ func TestScramble32(t *testing.T) {
 	for id, want := range cases {
 		got := Scramble32(id)
 		assert.Equal(t, want, got)
+		decrypt := Unscramble32(got)
+		assert.Equal(t, id, decrypt)
 	}
 
 }
@@ -68,5 +70,7 @@ func TestScramble64(t *testing.T) {
 	for id, want := range cases {
 		got := Scramble64(id)
 		assert.Equal(t, want, got)
+		decrypt := Unscramble64(got)
+		assert.Equal(t, id, decrypt)
 	}
 }

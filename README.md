@@ -36,7 +36,9 @@ The functions `Scramble32, Scramble64` are *bijective* functions, ie. they will 
 For convenience, these numbers can be encoded as strings (Instagram/YouTube like id encodings).
 
 ```go
-scramble.AlphaNumericEncoder.Encode32(
-  scramble.Scramble32(4)
-) // returns "NTySG"
+encoding := scramble.AlphabethEncoder32{Alphabeth: scramble.AlphaNumeric}
+slug:= encoding.Encode( scramble.Scramble32(4) ) // returns "NTySG"
+originalID:= Unscramble32(encoding.Decode(slug)) // gives 4
 ```
+
+See `readme_test.go`

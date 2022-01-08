@@ -53,7 +53,7 @@ func (r LinearCongurenceParameters64) Transform(v int64) float64 {
 	return float64(unbounded) / float64(r.mod) * r.scale
 }
 
-func FeistelNetwork32(start int32, f LinearCongurencer32) int32 {
+func FeistelNetwork32Crypt(start int32, f LinearCongurencer32) int32 {
 	var l1, l2, r1, r2 int32
 
 	l1 = (start >> 16) & 65535
@@ -67,8 +67,26 @@ func FeistelNetwork32(start int32, f LinearCongurencer32) int32 {
 	return ((r1 << 16) + l1)
 }
 
+func FeistelNetwork32Decrypt(start int32, f LinearCongurencer32) int32 {
+	var l1, l2, r1, r2 int32
+
+	r2 = (start >> 16) & 65535
+	l2 = start & 65535
+	for i := 0; i < 3; i++ {
+		r1 = l2
+		l1 = r2 ^ int32(math.Round(f.Transform(l2)))
+		l2 = l1
+		r2 = r1
+	}
+	return ((l2 << 16) + r2)
+}
+
 func Scramble32(start int32) int32 {
-	return FeistelNetwork32(start, DefaultReplace32)
+	return FeistelNetwork32Crypt(start, DefaultReplace32)
+}
+
+func Unscramble32(start int32) int32 {
+	return FeistelNetwork32Decrypt(start, DefaultReplace32)
 }
 
 func FeistelNetwork64(start int64, f LinearCongurencer64) int64 {
@@ -82,6 +100,24 @@ func FeistelNetwork64(start int64, f LinearCongurencer64) int64 {
 		r1 = r2
 	}
 	return ((r1 << 32) + l1)
+}
+
+func FeistelNetwork64Decrypt(start int64, f LinearCongurencer64) int64 {
+	var l1, l2, r1, r2 int64
+
+	r2 = (start >> 32) & 4294967295
+	l2 = start & 4294967295
+	for i := 0; i < 3; i++ {
+		r1 = l2
+		l1 = r2 ^ int64(math.Round(f.Transform(l2)))
+		l2 = l1
+		r2 = r1
+	}
+	return ((l2 << 32) + r2)
+}
+
+func Unscramble64(start int64) int64 {
+	return FeistelNetwork64Decrypt(start, DefaultReplace64)
 }
 
 func Scramble64(start int64) int64 {
