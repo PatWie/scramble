@@ -1,5 +1,12 @@
 # Go implementation of Pseudo encrypt
 
+
+An implementation that scrambles id and encodes them as a string, similar to
+(Instagram/YouTube id encodings).
+All functions are *bijective* functions (on the positive domain), ie. they will
+shuffle all integers from int32 (resp. int64) with zero collisions and can be undone.
+
+
 Implements the postgresql [pseudo encrypt](https://wiki.postgresql.org/wiki/Pseudo_encrypt).
 
 ```
@@ -29,8 +36,6 @@ Scramble32(x)
    9 |     1731020007
   10 |      792482838
  ```
-
-The functions `Scramble32, Scramble64` are *bijective* functions, ie. they will shuffle all integers from int32 (resp. int64) with zero collisions.
 
 
 For convenience, these numbers can be encoded as strings (Instagram/YouTube like id encodings).

@@ -7,7 +7,7 @@ import (
 )
 
 func TestReadme(t *testing.T) {
-	encoding := AlphabethEncoder32{Alphabeth: AlphaNumeric}
+	encoding := CharsetEncoder32{Charset: AlphaNumeric}
 
 	internalID := int32(4)
 	slug := encoding.Encode(Scramble32(internalID))

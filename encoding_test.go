@@ -27,7 +27,7 @@ func TestEncoding32(t *testing.T) {
 		53: "BC",
 	}
 
-	encoding := AlphabethEncoder32{Alphabeth: UpperCase}
+	encoding := CharsetEncoder32{Charset: UpperCase}
 	for id, want := range cases {
 		assert.Equal(t, want, encoding.Encode(id))
 	}
@@ -52,7 +52,7 @@ func TestEncoding64(t *testing.T) {
 		53: "BC",
 	}
 
-	encoding := AlphabethEncoder64{Alphabeth: UpperCase}
+	encoding := CharsetEncoder64{Charset: UpperCase}
 	for id, want := range cases {
 		assert.Equal(t, want, encoding.Encode(id))
 	}
@@ -61,7 +61,7 @@ func TestEncoding64(t *testing.T) {
 
 // Testing all would be too expensive.
 func TestDecode32Encode32(t *testing.T) {
-	encoding := AlphabethEncoder32{Alphabeth: UpperCase}
+	encoding := CharsetEncoder32{Charset: UpperCase}
 	for i := int32(0); i < math.MaxInt32-10000; i += 5000 {
 		assert.Equal(t, i, encoding.Decode(encoding.Encode(i)))
 	}

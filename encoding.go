@@ -15,11 +15,11 @@ type (
 		Decode(string) int64
 	}
 
-	AlphabethEncoder32 struct {
-		Alphabeth string
+	CharsetEncoder32 struct {
+		Charset string
 	}
-	AlphabethEncoder64 struct {
-		Alphabeth string
+	CharsetEncoder64 struct {
+		Charset string
 	}
 )
 
@@ -29,8 +29,9 @@ var (
 	AlphaNumeric = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 )
 
-func (a AlphabethEncoder32) Encode(value int32) string {
-	base := int32(len(a.Alphabeth))
+// Encodes a integer int32 into a string using a given charset.
+func (a CharsetEncoder32) Encode(value int32) string {
+	base := int32(len(a.Charset))
 
 	// Map negative part to positive side.
 	if value < 0 {
@@ -39,19 +40,20 @@ func (a AlphabethEncoder32) Encode(value int32) string {
 	}
 
 	if value < base {
-		return string(a.Alphabeth[(value+base)%base])
+		return string(a.Charset[(value+base)%base])
 	}
 
 	output := ""
 	for value > 0 {
-		output = output + string(a.Alphabeth[((value+base)%base)])
+		output = output + string(a.Charset[((value+base)%base)])
 		value = value / base
 	}
 	return output
 }
 
-func (a AlphabethEncoder64) Encode(value int64) string {
-	base := int64(len(a.Alphabeth))
+// Encodes a integer int64 into a string using a given charset.
+func (a CharsetEncoder64) Encode(value int64) string {
+	base := int64(len(a.Charset))
 
 	// Map negative part to positive side.
 	if value < 0 {
@@ -60,29 +62,30 @@ func (a AlphabethEncoder64) Encode(value int64) string {
 	}
 
 	if value < base {
-		return string(a.Alphabeth[(value+base)%base])
+		return string(a.Charset[(value+base)%base])
 	}
 
 	output := ""
 	for value > 0 {
 		offset := ((value + base) % base)
-		letter := string(a.Alphabeth[offset])
+		letter := string(a.Charset[offset])
 		output = output + letter
 		value = value / base
 	}
 	return output
 }
 
-func (a AlphabethEncoder32) Decode(value string) int32 {
+// Decodes a given string into an integer int32 using a given charset.
+func (a CharsetEncoder32) Decode(value string) int32 {
 	if len(value) == 1 {
-		return int32(strings.Index(a.Alphabeth, value))
+		return int32(strings.Index(a.Charset, value))
 	}
 
-	base := int64(len(a.Alphabeth))
+	base := int64(len(a.Charset))
 	output := int32(0)
 	for len(value) > 0 {
 		letter := string(value[len(value)-1])
-		offset := int32(strings.Index(a.Alphabeth, letter))
+		offset := int32(strings.Index(a.Charset, letter))
 		number := int32(math.Pow(float64(base), float64(len(value)-1))) * offset
 		output += number
 		value = value[:len(value)-1]
@@ -90,16 +93,17 @@ func (a AlphabethEncoder32) Decode(value string) int32 {
 	return output
 }
 
-func (a AlphabethEncoder64) Decode(value string) int64 {
+// Decodes a given string into an integer int64 using a given charset.
+func (a CharsetEncoder64) Decode(value string) int64 {
 	if len(value) == 1 {
-		return int64(strings.Index(a.Alphabeth, value))
+		return int64(strings.Index(a.Charset, value))
 	}
 
-	base := int64(len(a.Alphabeth))
+	base := int64(len(a.Charset))
 	output := int64(0)
 	for len(value) > 0 {
 		letter := string(value[len(value)-1])
-		offset := int64(strings.Index(a.Alphabeth, letter))
+		offset := int64(strings.Index(a.Charset, letter))
 		number := int64(math.Pow(float64(base), float64(len(value)-1))) * offset
 		output += number
 		value = value[:len(value)-1]
