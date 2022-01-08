@@ -47,3 +47,22 @@ originalID:= Unscramble32(encoding.Decode(slug)) // gives 4
 ```
 
 See `readme_test.go`
+
+## Using the Interface
+
+```go
+
+import(
+  "github.com/go-scramble/scramble"
+)
+
+func example(){
+  obscurer := NewObscurer64(CharsetEncoder64{Charset: AlphaNumeric})
+
+  internalID := int64(4)
+  urlSlug := obscurer.Obscure(internalID) // "67LllQ9fWvf"
+  decodedID := obscurer.Unobscure("67LllQ9fWvf") // int64(4)
+
+}
+
+```
