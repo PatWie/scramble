@@ -69,5 +69,4 @@ func TestScramble64(t *testing.T) {
 		got := Scramble64(id)
 		assert.Equal(t, want, got)
 	}
-
 }

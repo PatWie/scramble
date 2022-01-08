@@ -30,4 +30,13 @@ Scramble32(x)
   10 |      792482838
  ```
 
-The functions `Scramble32, Scramble64` are bijective functions, ie. they will shuffle all integers from int32 (resp. int64) with zero collisions.
+The functions `Scramble32, Scramble64` are *bijective* functions, ie. they will shuffle all integers from int32 (resp. int64) with zero collisions.
+
+
+For convenience, these numbers can be encoded as strings (Instagram/YouTube like id encodings).
+
+```go
+scramble.AlphaNumericEncoder.Encode32(
+  scramble.Scramble32(4)
+) // returns "NTySG"
+```
